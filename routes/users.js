@@ -2,11 +2,13 @@ var express = require("express");
 var router = express.Router();
 const User = require("../model/user.js");
 
-const errorHandler = require("../service/errorHandler");
+const appError = require("../service/appError");
+const handleErrAsync = require("../service/handleErrAsync");
 const successHandler = require("../service/successHandler");
 
-router.post("/user", async (req, res) => {
-  try {
+router.post(
+  "/user",
+  handleErrAsync(async (req, res, next) => {
     const data = req.body;
     const user = {
       userName: data.userName,
@@ -18,10 +20,7 @@ router.post("/user", async (req, res) => {
       const allUser = await User.find();
       successHandler(res, allUser);
     });
-  } catch (error) {
-    console.log("req error", error);
-    errorHandler(res, `POST User 格式錯誤，${error}`);
-  }
-});
+  })
+);
 
 module.exports = router;
