@@ -3,6 +3,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
+var { resError_Prod, resError_Dev } = require("./service/envErrorLog");
 
 require("./connect/db.js");
 var indexRouter = require("./routes/index");
@@ -33,16 +34,35 @@ app.use("/", postsRouter);
 app.use("/", usersRouter);
 
 // error 404 找不到路由會到這
-app.use((req, res, next) => {
-  console.log("404 err");
-  // errorHandler(res, "404 此頁面不存在", 404);
+app.use((req, res) => {
+  console.error("404 err");
+  res.status(404).json({
+    status: "error",
+    message: "無此路由資訊",
+  });
 });
 
 // error 500 預期next(err)的錯誤會到這
-app.use((err, req, res, next) => {
-  console.error("500 err: ", err);
-  // errorHandler(res, err.message, 500);
+app.use(function (err, req, res, next) {
+  err.statusCode = err.statusCode || 500;
+
+  // dev
+  if (process.env.NODE_ENV === "dev") {
+    return resError_Dev(err, res);
+  }
+  // production
+  if (err.name === "ValidationError") {
+    err.message = "資料欄位未填寫正確，請重新輸入！";
+    err.isOperational = true;
+    return resError_Prod(err, res);
+  }
+  resError_Prod(err, res);
 });
+
+// app.use((err, req, res, next) => {
+//   console.error("500 err: ", err);
+//   // errorHandler(res, err.message, 500);
+// });
 
 // 其他未預期的錯誤會到這
 process.on("unhandleRejection", (err, promise) => {
