@@ -46,7 +46,7 @@ router.get("/posts", async (req, res) => {
 });
 
 // 新增POSTS
-router.post("/posts", async (req, res) => {
+router.post("/post", async (req, res) => {
   try {
     const data = req.body;
     const user = await User.findById(data.userId);
@@ -87,7 +87,7 @@ router.delete("/posts", async (req, res) => {
     });
 });
 
-router.delete("/posts/:id", async (req, res) => {
+router.delete("/post/:id", async (req, res) => {
   const id = req.params.id;
   const findPostId = await Post.findById(id);
   if (findPostId === null) {
@@ -104,14 +104,14 @@ router.delete("/posts/:id", async (req, res) => {
     });
 });
 
-router.patch("/posts/:id", async (req, res) => {
+router.patch("/post/:id", async (req, res) => {
   try {
     const data = req.body;
     const id = req.params.id;
 
     const findUserId = await Post.findById(id);
     if (findUserId === null) {
-      errorHandler(res, "Post不存在");
+      errorHandler(res, "文章不存在");
       return;
     }
     if (data.title === undefined) {
