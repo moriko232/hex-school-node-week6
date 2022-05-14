@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
-const Post = require("../model/post.js");
-const User = require("../model/user.js");
+const Post = require("../model/postModel.js");
+const User = require("../model/userModel.js");
 
 const appError = require("../service/appError");
 const handleErrAsync = require("../service/handleErrAsync");
