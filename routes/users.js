@@ -7,14 +7,19 @@ const handleErrAsync = require("../service/handleErrAsync");
 const successHandler = require("../service/successHandler");
 
 router.post(
-  "/user",
+  "/user/sign_up",
   handleErrAsync(async (req, res, next) => {
     const data = req.body;
+
+    // 檢查欄位
+    if (data.userName === "") {
+      appError({ errMessage: "未填寫userName" }, next);
+    }
+
     const user = {
       userName: data.userName,
       email: data.email,
       password: data.password,
-      avatarUrl: data.avatarUrl,
     };
     await User.create(user).then(async () => {
       const allUser = await User.find();
