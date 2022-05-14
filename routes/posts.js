@@ -1,14 +1,15 @@
 var express = require("express");
 var router = express.Router();
 const Post = require("../model/postModel.js");
-const User = require("../model/userModel.js");
 
+const isAuth = require("../service/isAuth.js");
 const appError = require("../service/appError");
 const handleErrAsync = require("../service/handleErrAsync");
 const successHandler = require("../service/successHandler");
 
 router.get(
   "/posts",
+  isAuth,
   handleErrAsync(async (req, res) => {
     const timeSort = req.query.timeSort == "asc" ? "createAt" : "-createAt";
     const q =
@@ -27,21 +28,18 @@ router.get(
 // 新增POSTS
 router.post(
   "/post",
+  isAuth,
   handleErrAsync(async (req, res, next) => {
     const data = req.body;
-    const user = await User.findById(data.userId).exec();
+    const UserId = req.user.id;
 
-    if (user === null) {
-      appError({ errMessage: "此User不存在" }, next);
-      return;
-    }
     if (data.title === undefined) {
       appError({ errMessage: "POST title未填寫" }, next);
       return;
     }
 
     const post = {
-      userData: data.userId,
+      userData: UserId,
       title: data.title,
       content: data.content,
       imgUrl: data.imgUrl,
@@ -56,6 +54,7 @@ router.post(
 
 router.delete(
   "/posts",
+  isAuth,
   handleErrAsync(async (req, res, next) => {
     await Post.deleteMany({}).then(async () => {
       const allData = await Post.find();
@@ -66,6 +65,7 @@ router.delete(
 
 router.delete(
   "/post/:id",
+  isAuth,
   handleErrAsync(async (req, res, next) => {
     const id = req.params.id;
     const findPostId = await Post.findById(id);
@@ -82,6 +82,7 @@ router.delete(
 
 router.patch(
   "/post/:id",
+  isAuth,
   handleErrAsync(async (req, res, next) => {
     const data = req.body;
     const id = req.params.id;
