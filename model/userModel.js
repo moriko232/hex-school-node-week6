@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       select: false,
     },
+    gender: {
+      type: String,
+      required: false,
+      enum: ["male", "female"],
+    },
     avatarUrl: {
       type: String,
       required: false,
