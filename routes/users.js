@@ -18,7 +18,7 @@ router.get(
   })
 );
 
-// 註冊會員
+// 會員註冊
 router.post(
   "/user/sign_up",
   handleErrAsync(async (req, res, next) => {
@@ -60,6 +60,43 @@ router.post(
     const newUser = await User.create(user);
 
     generateSendJWT(newUser, 201, res);
+  })
+);
+
+// 會員登入
+router.post(
+  "/user/login",
+  handleErrAsync(async (req, res, next) => {
+    const data = req.body;
+    let { email, password } = data;
+
+    // 手動檢查欄位
+    if (!email) {
+      return appError({ errMessage: "未填寫email" }, next);
+    }
+    if (!password) {
+      return appError({ errMessage: "未填寫password" }, next);
+    }
+    if (!validator.isEmail(email)) {
+      return appError({ errMessage: "帳號或密碼有誤" }, next);
+    }
+    if (!validator.isLength(password, { min: 8 })) {
+      return appError({ errMessage: "帳號或密碼有誤" }, next);
+    }
+
+    // +password可以額外撈出原本select false的資料
+    const findUser = await User.findOne({ email }).select("+password");
+    console.log("finduser", findUser);
+    if (!findUser) {
+      return appError({ errMessage: "帳號或密碼有誤" }, next);
+    }
+
+    const isPass = await bcrypt.compare(password, findUser.password);
+    if (!isPass) {
+      return appError({ errMessage: "帳號或密碼有誤" }, next);
+    }
+
+    generateSendJWT(findUser, 201, res);
   })
 );
 
