@@ -1,0 +1,358 @@
+{
+	"info": {
+		"_postman_id": "161f720f-5991-46a8-8ca1-494a9f9ef5ef",
+		"name": "api - heroku (week6)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "取得所有貼文",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyN2Y2YWQwYzJkM2FmYzAyMDFmMDZhZCIsImlhdCI6MTY1MjUyMTk5OSwiZXhwIjoxNjUzMTI2Nzk5fQ.6nf7fufPpasVoVqORuYTv4xrO2nWxKP6WW--qinUMuE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/posts?timeSort=desc",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "timeSort",
+									"value": "desc"
+								},
+								{
+									"key": "q",
+									"value": "超讚",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "新增貼文",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyN2Y2YWQwYzJkM2FmYzAyMDFmMDZhZCIsImlhdCI6MTY1MjUyMTk5OSwiZXhwIjoxNjUzMTI2Nzk5fQ.6nf7fufPpasVoVqORuYTv4xrO2nWxKP6WW--qinUMuE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"發現神秘洞窟\",\r\n    \"content\": \"徵求冒險夥伴\",\r\n    \"imgUrl\": \"\",\r\n    \"tag\": \"新聞\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/post",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刪除所有貼文",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/posts",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刪除一筆貼文",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/post/627757d42a6a34b5eeeb6ee2",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"post",
+								"627757d42a6a34b5eeeb6ee2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "編輯一筆貼文",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tag\": \"心情\",\r\n    \"userName\": \"老皮\",\r\n    \"title\": \"演唱會嗨到爆><\",\r\n    \"content\": \"超讚\",\r\n    \"imgUrl\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/post/6263d57fadf135fe8888151f",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"post",
+								"6263d57fadf135fe8888151f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "會員註冊",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"阿寶\",\r\n    \"email\": \"aaa@gmail.com\",\r\n    \"password\": \"a123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/user/sign_up",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"sign_up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "會員登入",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"aaa@gmail.com\",\r\n    \"password\": \"a123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/user/login",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "取得會員資料",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyN2Y2YWQwYzJkM2FmYzAyMDFmMDZhZCIsImlhdCI6MTY1MjUyMTk5OSwiZXhwIjoxNjUzMTI2Nzk5fQ.6nf7fufPpasVoVqORuYTv4xrO2nWxKP6WW--qinUMuE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"a123456789\",\r\n    \"password\": \"b123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/user/profile",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改會員資料",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyN2Y2YWQwYzJkM2FmYzAyMDFmMDZhZCIsImlhdCI6MTY1MjUyMTk5OSwiZXhwIjoxNjUzMTI2Nzk5fQ.6nf7fufPpasVoVqORuYTv4xrO2nWxKP6WW--qinUMuE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"寶寶\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/user/profile",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "重設密碼",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyN2Y2YWQwYzJkM2FmYzAyMDFmMDZhZCIsImlhdCI6MTY1MjUyMTk5OSwiZXhwIjoxNjUzMTI2Nzk5fQ.6nf7fufPpasVoVqORuYTv4xrO2nWxKP6WW--qinUMuE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"a123456789\",\r\n    \"password\": \"b123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://quiet-anchorage-81758.herokuapp.com/user/updatePassword",
+							"protocol": "https",
+							"host": [
+								"quiet-anchorage-81758",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
