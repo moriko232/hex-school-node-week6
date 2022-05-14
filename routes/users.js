@@ -5,10 +5,11 @@ var router = express.Router();
 const User = require("../model/userModel.js");
 
 const generateSendJWT = require("../service/generateSendJWT.js");
+const isAuth = require("../service/isAuth.js");
 const appError = require("../service/appError");
 const handleErrAsync = require("../service/handleErrAsync");
 const successHandler = require("../service/successHandler");
-
+var jwt = require("jsonwebtoken");
 // 列出會員
 router.get(
   "/users",
@@ -86,7 +87,7 @@ router.post(
 
     // +password可以額外撈出原本select false的資料
     const findUser = await User.findOne({ email }).select("+password");
-    console.log("finduser", findUser);
+    // console.log("finduser", findUser);
     if (!findUser) {
       return appError({ errMessage: "帳號或密碼有誤" }, next);
     }
@@ -97,6 +98,65 @@ router.post(
     }
 
     generateSendJWT(findUser, 201, res);
+  })
+);
+
+// 取得會員資料
+router.get(
+  "/user/profile",
+  isAuth,
+  handleErrAsync(async (req, res, next) => {
+    const id = req.user.id;
+    console.log("id", id);
+    const UserData = await User.findById(id);
+    successHandler(res, UserData);
+  })
+);
+
+// 更新會員資料
+router.patch(
+  "/user/profile",
+  isAuth,
+  handleErrAsync(async (req, res, next) => {
+    const userId = req.user.id;
+    const data = req.body;
+    const userData = {
+      userName: data.userName,
+      gender: data.gender,
+      avatarUrl: data.avatarUrl,
+    };
+    // console.log("userData", userData);
+
+    const newUserData = await User.findByIdAndUpdate(userId, userData);
+    // console.log("newUserData", newUserData);
+
+    successHandler(res, newUserData);
+  })
+);
+
+// 更改密碼
+router.post(
+  "/user/updatePassword",
+  isAuth,
+  handleErrAsync(async (req, res, next) => {
+    const userId = req.user.id;
+    const data = req.body;
+    let { oldPassword, password } = data;
+    // console.log("req.headers", req.headers.authorization);
+    // console.log("req.headers", req.headers.authorization.startsWith("Bearer"));
+    // +password可以額外撈出原本select false的資料
+    const findUser = await User.findOne({ id: userId }).select("+password");
+    const isPass = await bcrypt.compare(oldPassword, findUser.password);
+    if (!isPass) {
+      return appError({ errMessage: "舊密碼有誤，請重新輸入" }, next);
+    }
+
+    const hashPassword = await bcrypt.hash(password, 12);
+    const newUserData = await User.findByIdAndUpdate(userId, {
+      password: hashPassword,
+    });
+
+    successHandler(res, newUserData);
   })
 );
 
