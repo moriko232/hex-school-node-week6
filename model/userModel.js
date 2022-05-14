@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "password必填"],
+      minlength: 8,
       select: false,
     },
     avatarUrl: {
